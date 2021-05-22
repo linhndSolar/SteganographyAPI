@@ -5,11 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.7" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Model\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Resources\Images\" />
   </ItemGroup>
 </Project>
