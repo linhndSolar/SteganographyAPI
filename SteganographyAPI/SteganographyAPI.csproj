@@ -9,13 +9,19 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.7" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
-    <PackageReference Include="WriteableBitmapEx" Version="1.6.7" />
     <PackageReference Include="ImageProcessor" Version="2.9.1" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Model\" />
     <Folder Include="Resources\" />
     <Folder Include="Resources\Images\" />
+    <Folder Include="Common\" />
+    <Folder Include="Resources\Keys\" />
+    <Folder Include="Resources\Weights\" />
+    <Folder Include="Resources\Result\" />
   </ItemGroup>
 </Project>

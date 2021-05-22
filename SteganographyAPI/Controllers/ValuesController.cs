@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SteganographyAPI.Common;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,9 +14,13 @@ namespace SteganographyAPI.Controllers
     {
         // GET: api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            SteganographyHelper.generateKey(128,128);
+            SteganographyHelper.generateWeight(128,128);
+            return Ok(new {
+                code = 200
+            });
         }
 
         // GET api/values/5
