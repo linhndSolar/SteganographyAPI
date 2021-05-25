@@ -9,6 +9,8 @@ namespace SteganographyAPI.Common
 {
     public class SteganographyHelper
     {
+        private const char END_CHARACTER = (char)0;
+
         public SteganographyHelper()
         {
         }
@@ -399,7 +401,6 @@ namespace SteganographyAPI.Common
                 var folder = FileManager.resultFolder();
                 var fullPath = Path.Combine(folder, nameImage);
                 Bitmap bitmap = new Bitmap(fullPath, true);
-                List<int> listNum = new List<int>();
 
                 int r = (int)(Math.Log2(width * height + 1));
                 int n = width * height;
@@ -419,15 +420,17 @@ namespace SteganographyAPI.Common
 
                         string messageBinarySegment = decToBin(sum,r);
                         messageBinary += messageBinarySegment;
-                        listNum.Add(sum);
                     }
                 }
 
-                for (int i=0;i+8 < messageBinary.Length;i += 8)
+                for (int i=0;i+7 < messageBinary.Length;i += 8)
                 {
                     string bitsOfChar = messageBinary.Substring(i, 8);
                     int code = binToDec(bitsOfChar);
                     char character = (char)code;
+                    if (character == END_CHARACTER)
+                        break;
+
                     result += character.ToString();
                 }
 
@@ -455,6 +458,7 @@ namespace SteganographyAPI.Common
                 var fullPath = Path.Combine(folder, nameImage);
                 Bitmap bitmap = new Bitmap(fullPath, true);
 
+                message = message + END_CHARACTER.ToString();
                 string messageBinary = textToBin(message, 8);
                 int messageBinarySegmentIndex = 0;
 
@@ -478,7 +482,6 @@ namespace SteganographyAPI.Common
                         messageBinarySegmentIndex += r;
                         int messageSegmentValue = binToDec(messageBinarySegment);
 
-                        // int alpha = sum - binToDec(messageBinarySegment);
                         if (sum == messageSegmentValue)
                         {
                             listNum.Add(sum);
@@ -508,15 +511,7 @@ namespace SteganographyAPI.Common
                         {
                             int x = resultInOperator1[messageSegmentValue][0].Key;
                             int y = resultInOperator1[messageSegmentValue][0].Value;
-                            if (((bitmap.GetPixel(y, x).R % 2) ^ K[x%height][y%width]) == 0)
-                            {
-                                sum = (sum + W[x % height][y % width] + n*n) % n;
-                            } else
-                            {
-                                sum = (sum + n*n - W[x % height][y % width]) % n;
-                            }
                             bitmap = reverseBit(bitmap, x, y);
-                            listNum.Add(sum);
                             continue;
                         }
 
@@ -555,27 +550,8 @@ namespace SteganographyAPI.Common
 
                         if (isHasResult)
                         {
-                            if (((bitmap.GetPixel(firstPosition.Value, firstPosition.Key).R % 2) ^ K[firstPosition.Key%height][firstPosition.Value%width]) == 0)
-                            {
-                                sum = (sum + W[firstPosition.Key % height][firstPosition.Value % width] + n * n) % n;
-                            }
-                            else
-                            {
-                                sum = (sum + n * n - W[firstPosition.Key % height][firstPosition.Value % width]) % n;
-                            }
-
-                            if (((bitmap.GetPixel(secondPosition.Value, secondPosition.Key).R % 2) ^ K[secondPosition.Key%height][secondPosition.Value%width]) == 0)
-                            {
-                                sum = (sum + W[secondPosition.Key % height][secondPosition.Value % width] + n * n) % n;
-                            }
-                            else
-                            {
-                                sum = (sum + n * n - W[secondPosition.Key % height][secondPosition.Value % width]) % n;
-                            }
-
                             bitmap = reverseBit(bitmap, firstPosition.Key, firstPosition.Value);
                             bitmap = reverseBit(bitmap, secondPosition.Key, secondPosition.Value);
-                            listNum.Add(sum);
                         }
                         else
                         {
@@ -583,7 +559,7 @@ namespace SteganographyAPI.Common
                         }
                     }
 
-                    if (messageBinarySegmentIndex >= r)
+                    if (messageBinarySegmentIndex >= messageBinary.Length)
                         break;
                 }
 

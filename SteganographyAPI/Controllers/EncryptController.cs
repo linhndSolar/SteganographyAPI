@@ -24,9 +24,9 @@ namespace SteganographyAPI.Controllers
             var weight = model.weight;
 
             Exception exception;
-            // Bitmap bitmap = SteganographyHelper.encrypt(name, message, key, weight, out exception);
+            Bitmap bitmap = SteganographyHelper.encrypt(name, message, key, weight, out exception);
             //SteganographyHelper.encryptAndDecrypt(name, message, key, weight, out exception);
-            SteganographyHelper.fake(name, "a", "fake", "fake", out exception);
+            //SteganographyHelper.fake(name, "a", "fake", "fake", out exception);
 
             if (exception != null)
             {
@@ -34,7 +34,7 @@ namespace SteganographyAPI.Controllers
             }
 
             string id = SteganographyHelper.MD5Hash(DateTime.Now.ToString());
-            //bitmap.Save(Path.Combine(FileManager.resultFolder(), id + ".bmp"));
+            bitmap.Save(Path.Combine(FileManager.resultFolder(), id + ".bmp"));
             return Ok(new { id, messageBinary = SteganographyHelper.textToBin(message, 8)});
         }
     }
