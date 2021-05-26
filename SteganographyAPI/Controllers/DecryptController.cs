@@ -27,7 +27,6 @@ namespace SteganographyAPI.Controllers
             {
                 return StatusCode(500, $"Internal server error: {exception}");
             }
-
             return Ok(new { message });
         }
     }
