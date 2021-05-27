@@ -439,6 +439,7 @@ namespace SteganographyAPI.Common
             } catch (Exception ex)
             {
                 exception = ex;
+                Console.WriteLine(ex.ToString());
                 return result;
             }
         }
@@ -659,7 +660,7 @@ namespace SteganographyAPI.Common
             return result;
         }
 
-        public static void generateKey(int width, int height)
+        public static string generateKey(int width, int height)
         {
             var result = width.ToString() + " " + height.ToString();
             var rand = new Random();
@@ -668,10 +669,13 @@ namespace SteganographyAPI.Common
                 result += " " + rand.Next(0,2).ToString();
             }
 
-            File.WriteAllTextAsync(Path.Combine(FileManager.keyFolder(), MD5Hash(DateTime.Now.ToString()) + ".key"), result);
+            string name = MD5Hash(DateTime.Now.ToString()) + ".key";
+            File.WriteAllTextAsync(Path.Combine(FileManager.keyFolder(), name), result);
+
+            return name;
         }
 
-        public static void generateWeight(int width, int height)
+        public static string generateWeight(int width, int height)
         {
             var result = width.ToString() + " " + height.ToString();
             var value = new List<int>();
@@ -687,7 +691,10 @@ namespace SteganographyAPI.Common
                 value.RemoveAt(index);
             }
 
-            File.WriteAllTextAsync(Path.Combine(FileManager.weightFolder(), MD5Hash(DateTime.Now.ToString()) + ".weight"), result);
+            string name = MD5Hash(DateTime.Now.ToString()) + ".weight";
+            File.WriteAllTextAsync(Path.Combine(FileManager.weightFolder(), name), result);
+
+            return name;
         }
 
         public static string MD5Hash(string input)
