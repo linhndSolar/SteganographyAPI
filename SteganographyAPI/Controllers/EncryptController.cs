@@ -30,11 +30,12 @@ namespace SteganographyAPI.Controllers
 
             if (exception != null)
             {
+                Console.WriteLine(exception.ToString());
                 return StatusCode(500, $"Internal server error: {exception}");
             }
 
             string id = SteganographyHelper.MD5Hash(DateTime.Now.ToString());
-            bitmap.Save(Path.Combine(FileManager.resultFolder(), id + ".bmp"));
+            bitmap.Save(Path.Combine(FileManager.imageFolder(), id + ".bmp"));
             return Ok(new { id, messageBinary = SteganographyHelper.textToBin(message, 8)});
         }
     }

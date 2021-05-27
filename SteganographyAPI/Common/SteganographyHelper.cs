@@ -398,7 +398,7 @@ namespace SteganographyAPI.Common
                 int width = K.Length;
                 int height = K[0].Length;
 
-                var folder = FileManager.resultFolder();
+                var folder = FileManager.imageFolder();
                 var fullPath = Path.Combine(folder, nameImage);
                 Bitmap bitmap = new Bitmap(fullPath, true);
 
